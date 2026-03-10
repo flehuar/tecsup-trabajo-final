@@ -3,13 +3,16 @@ package com.tecsup.pedidocomida.pedido.infrastructure.rest;
 import com.tecsup.pedidocomida.pedido.application.CreateOrderUseCase;
 import com.tecsup.pedidocomida.pedido.application.UpdateOrderStatusUseCase;
 import com.tecsup.pedidocomida.pedido.domain.Order;
+import com.tecsup.pedidocomida.pedido.domain.OrderItem;
 import jakarta.validation.Valid;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
@@ -30,8 +33,12 @@ public class OrderController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Order create(@Valid @RequestBody CreateOrderRequest request) {
-        return createOrderUseCase.create(request.userId(), request.totalAmount());
+    public Order create(@RequestHeader(HttpHeaders.AUTHORIZATION) String authorization,
+                        @Valid @RequestBody CreateOrderRequest request) {
+        List<OrderItem> items = request.items().stream()
+            .map(it -> new OrderItem(it.productId(), it.quantity()))
+            .toList();
+        return createOrderUseCase.create(request.userId(), items, authorization);
     }
 
     @PatchMapping("/{orderId}/status")

@@ -1,10 +1,16 @@
 package com.tecsup.pedidocomida.pedido.infrastructure.rest;
 
-import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.Valid;
 
-import java.math.BigDecimal;
+import java.util.List;
 
 public record CreateOrderRequest(@NotNull Long userId,
-                                 @NotNull @DecimalMin("0.01") BigDecimal totalAmount) {
+                                 @NotEmpty List<@Valid CreateOrderItemRequest> items) {
+
+    public record CreateOrderItemRequest(@NotNull Long productId,
+                                         @NotNull @Positive Integer quantity) {
+    }
 }

@@ -44,7 +44,7 @@ public class UpdateOrderStatusUseCase {
                     "Transicion invalida: " + existing.status() + " -> " + normalizedStatus);
         }
 
-        Order updated = repositoryPort.save(new Order(existing.id(), existing.userId(), existing.totalAmount(), normalizedStatus));
+        Order updated = repositoryPort.save(new Order(existing.id(), existing.userId(), existing.totalAmount(), normalizedStatus, existing.items()));
         eventPublisherPort.publishOrderStatusChanged(updated);
         return updated;
     }

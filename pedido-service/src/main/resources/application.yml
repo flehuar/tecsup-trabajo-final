@@ -27,3 +27,7 @@ management:
 security:
   jwt:
     secret: ${SECURITY_JWT_SECRET:tecsup-pedido-comida-secret-key-32chars}
+
+integration:
+  catalog:
+    base-url: ${INTEGRATION_CATALOG_BASE_URL:http://catalogo-service:8082}

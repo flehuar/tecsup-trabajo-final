@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS order_items;
 DROP TABLE IF EXISTS orders;
 
 CREATE TABLE orders (
@@ -5,4 +6,11 @@ CREATE TABLE orders (
   user_id BIGINT NOT NULL,
   total_amount NUMERIC(10,2) NOT NULL,
   status VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE order_items (
+  id BIGSERIAL PRIMARY KEY,
+  order_id BIGINT NOT NULL REFERENCES orders(id) ON DELETE CASCADE,
+  product_id BIGINT NOT NULL,
+  quantity INTEGER NOT NULL CHECK (quantity > 0)
 );
