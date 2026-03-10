@@ -1,0 +1,37 @@
+server:
+  port: ${SERVER_PORT:8085}
+
+spring:
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:55432/entregas_db}
+    username: ${SPRING_DATASOURCE_USERNAME:entregas_user}
+    password: ${SPRING_DATASOURCE_PASSWORD:entregas_pass}
+  sql:
+    init:
+      mode: always
+  jpa:
+    hibernate:
+      ddl-auto: none
+  kafka:
+    bootstrap-servers: ${SPRING_KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+    consumer:
+      group-id: entrega-service-group
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring:
+          json:
+            trusted:
+              packages: "*"
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+
+security:
+  jwt:
+    secret: ${SECURITY_JWT_SECRET:tecsup-pedido-comida-secret-key-32chars}

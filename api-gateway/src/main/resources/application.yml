@@ -1,0 +1,41 @@
+server:
+  port: ${SERVER_PORT:8080}
+
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: auth-service
+          uri: http://auth-service:8087
+          predicates:
+            - Path=/api/auth/**
+        - id: usuario-service
+          uri: http://usuario-service:8081
+          predicates:
+            - Path=/api/users/**
+        - id: catalogo-service
+          uri: http://catalogo-service:8082
+          predicates:
+            - Path=/api/products/**
+        - id: pedido-service
+          uri: http://pedido-service:8083
+          predicates:
+            - Path=/api/orders/**
+        - id: pago-service
+          uri: http://pago-service:8084
+          predicates:
+            - Path=/api/payments/**
+        - id: entrega-service
+          uri: http://entrega-service:8085
+          predicates:
+            - Path=/api/deliveries/**
+
+security:
+  jwt:
+    secret: ${SECURITY_JWT_SECRET:tecsup-pedido-comida-secret-key-32chars}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info

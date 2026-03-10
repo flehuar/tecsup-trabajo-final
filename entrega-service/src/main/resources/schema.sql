@@ -1,0 +1,7 @@
+DROP TABLE IF EXISTS deliveries;
+
+CREATE TABLE deliveries (
+  id BIGSERIAL PRIMARY KEY,
+  order_id BIGINT NOT NULL UNIQUE,
+  status VARCHAR(50) NOT NULL
+);

@@ -1,0 +1,27 @@
+server:
+  port: ${SERVER_PORT:8082}
+
+spring:
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:55432/catalogo_db}
+    username: ${SPRING_DATASOURCE_USERNAME:catalogo_user}
+    password: ${SPRING_DATASOURCE_PASSWORD:catalogo_pass}
+  sql:
+    init:
+      mode: always
+  jpa:
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        format_sql: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+
+security:
+  jwt:
+    secret: ${SECURITY_JWT_SECRET:tecsup-pedido-comida-secret-key-32chars}

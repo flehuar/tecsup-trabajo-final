@@ -1,0 +1,12 @@
+server:
+  port: ${SERVER_PORT:8087}
+
+security:
+  jwt:
+    secret: ${SECURITY_JWT_SECRET:tecsup-pedido-comida-secret-key-32chars}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
